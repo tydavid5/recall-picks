@@ -68,4 +68,4 @@ changed the next pick's display/sorting.]
 - In mock mode (no keys) every chain number is a clearly-labelled sample.
 
 Repo: https://github.com/tydavid5/recall-picks
-Demo: run `npm start` locally (see README), or use the live demo link in the submission form — the server's `/api/health`, `/api/memory` and `/api/credibility` endpoints are the live proof.
+Demo: live at https://recall-picks.vercel.app/ (or run `npm start` locally, see README) — the server's `/api/health`, `/api/memory` and `/api/credibility` endpoints are the live proof.

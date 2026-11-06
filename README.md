@@ -106,9 +106,9 @@ is labelled "Sample / mock" in the UI.
 
 ## Repo / submission checklist
 
-- [ ] Public GitHub repo with this code + README
-- [ ] Working demo (live URL or video)
+- [x] Public GitHub repo with this code + README — https://github.com/tydavid5/recall-picks
+- [x] Working demo (live URL or video) — https://recall-picks.vercel.app/ (Vercel Hobby, free)
 - [ ] Blog post: what it does, how it uses Tatum + Walrus, how it learned over time
-- [ ] ≥10 Walrus Memory writes on Mainnet (`npm run seed` + live picks)
+- [x] ≥10 Walrus Memory writes on Mainnet (`npm run seed` + live picks)
 - [ ] Tatum Sui RPC used for onchain reads (`/api/health` live, checkpoint on every pick)
 - [ ] Submission form: Tatum dashboard Account ID, Tatum API key, `MEMWAL_AGENT_ID`
