@@ -46,15 +46,18 @@ receipts. A pick logged after the game is not a pick.
 Live proof — VERIFIED 2026-11-06:
 - Walrus memory_count: 10, namespace recall-picks, Mainnet relayer
 - Blob IDs (all 10, status done): 3iJsZmK6LyAWoZeDJblQKmUeBqS6DS9v7ZbfQEWKTbk, ehmgbF_6703AC7XwNyyd3f3zzx3ynTmb6aXsCSTAjHQ, MRHx-t19DqzvVBA7mG3v97nAiM7D7d_R6qJ17ATLeJA, Hy9bFGeVW5o0vyDDGuNU4a6qcIetJEnhmeAZfGrLPEg, oIdOmwPz7pKf5I762Zb7Edh0KFJZ3YmSNUkKxbk2-Hc, 1vkF7KNDmoENXghdhYat60yKdo_uYhNBWCfqdeCrp-w, FwNatUb4WdxLX3HlPLTDDRJxXWimTAwRBLJS8TS02Og, h2ziWMplncG87SiiX78nPQa0tuf8KyBLrBRfrrfwLf8, hK0QmX_XedC1qMfbJX4qJ-RQA-izVnjRuwWGpxtGuOE, 5gSU3hm3u0EltX3Jktuqi_DjGOx7xOTaKnSTdDxIH4Q
-- Live Tatum checkpoint at verification: 342290546, SUI $0.866
+- Live Tatum checkpoint at verification: 342311921, SUI $0.871 (re-verified live on the Vercel demo, 2026-11-06)
 - Recall query that returned the memories: GET /api/memory?action=recall&q=Arsenal credibility — returned the Arsenal PICK, OUTCOME and CREDIBILITY texts with matching blob IDs. Full ledger: data/seed-ledger.json
 
 ## How it learned over time
 
 Seeded with 10 memories: 3 pick + outcome pairs, 3 credibility summaries,
-1 league note. [After live seeding, describe one concrete update here:
-e.g. tipster X went from trust N to M after Y settled picks, and how that
-changed the next pick's display/sorting.]
+1 league note. The concrete learning so far, all from one settled pick each:
+Five (NFL) went from neutral 50 to trust 66 after his pick won; Ada (Premier
+League) dropped from 50 to 39 after hers lost on a 1-1 draw; Ken (NBA) rose
+from 50 to 65 after his pick won. The shrinkage toward 50 keeps a single
+result from looking like a track record — the trust badge moves a little,
+not all the way, and it will keep moving as more picks settle.
 
 ## Honest limits
 
