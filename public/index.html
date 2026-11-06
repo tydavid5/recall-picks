@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recall Picks — sports picks that remember</title>
+<style>
+:root{--blue:#2563eb;--ink:#0f172a;--muted:#64748b;--bg:#fffbf2;--card:#fff;--line:#dbeafe;--green:#15803d;--red:#b91c1c;--amber:#92400e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--blue);color:#fff;padding:18px 16px}header h1{margin:0;font-size:22px}header p{margin:4px 0 0;opacity:.9}
+.badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;margin-top:8px}
+.badge.mock{background:#fef3c7;color:var(--amber)}.badge.live{background:#dcfce7;color:var(--green)}.badge.err{background:#fee2e2;color:var(--red)}
+main{max-width:860px;margin:0 auto;padding:16px}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+h2{margin:0 0 4px;font-size:18px}.sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;font-size:15px;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:12px 16px;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px;width:100%}
+button.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue);width:auto;padding:8px 12px;font-size:13px;margin:6px 6px 0 0}
+pre{background:#f1f5f9;border-radius:9px;padding:12px;white-space:pre-wrap;word-break:break-word;font-size:13px;overflow:auto}
+.card{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 4px;font-size:15px}.meta{color:var(--muted);font-size:13px;line-height:1.5}
+.edge{font-weight:800;color:var(--green)}.noedge{font-weight:700;color:var(--muted)}
+.tag{display:inline-block;background:#eff6ff;color:var(--blue);border-radius:6px;padding:2px 7px;font-size:11px;font-weight:700;margin-right:5px}
+.tag.sample{background:#fef3c7;color:var(--amber)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 4px;border-bottom:1px solid #e2e8f0}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.note{background:#eff6ff;border-radius:9px;padding:10px;font-size:13px;color:#1e3a5f}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Recall Picks</h1>
+  <p>A pick journal that simulates matches, logs picks before kickoff, and learns who to trust.</p>
+  <span id="healthBadge" class="badge mock">Checking onchain status…</span>
+  <div id="healthLine" style="font-size:13px;margin-top:6px;opacity:.95"></div>
+</header>
+<main>
+  <section>
+    <h2>1 · Simulate a match — 1,000 runs</h2>
+    <p class="sub">Offchain model. Edge is flagged only when sim ≥ 70% and bookie ≤ 55%.</p>
+    <div class="row">
+      <div><label>Sport</label><select id="simSport">
+        <option value="american-football">American football (NFL)</option>
+        <option value="soccer">Soccer</option>
+        <option value="basketball">Basketball (NBA)</option>
+        <option value="tennis">Tennis</option>
+      </select></div>
+      <div><label>Bookie odds — Team A (decimal, e.g. 1.85)</label><input id="simOddsA" type="number" step="0.01" min="1.01" placeholder="1.85"></div>
+    </div>
+    <div class="row">
+      <div><label>Team A</label><input id="simA" value="Kansas City Chiefs"></div>
+      <div><label>Team B</label><input id="simB" value="Buffalo Bills"></div>
+    </div>
+    <div class="row">
+      <div><label>Model win % — Team A (e.g. 71)</label><input id="simModel" type="number" min="1" max="99" value="71"></div>
+      <div><label>Bookie odds — Team B (decimal)</label><input id="simOddsB" type="number" step="0.01" min="1.01" placeholder="2.10"></div>
+    </div>
+    <div class="row">
+      <div><label>Expected points / goals A (optional)</label><input id="simExpA" type="number" step="0.1" placeholder="e.g. 27"></div>
+      <div><label>Expected points / goals B (optional)</label><input id="simExpB" type="number" step="0.1" placeholder="e.g. 24"></div>
+    </div>
+    <button onclick="runSim()">Run 1,000 simulations</button>
+    <div id="simOut"></div>
+  </section>
+
+  <section>
+    <h2>2 · Log a pick — before kickoff</h2>
+    <p class="sub">The pick is stored with an onchain receipt (Sui checkpoint via Tatum, or a clearly-labelled mock receipt when no key is set).</p>
+    <div class="row">
+      <div><label>Team A</label><input id="pA" value="Kansas City Chiefs"></div>
+      <div><label>Team B</label><input id="pB" value="Buffalo Bills"></div>
+    </div>
+    <div class="row">
+      <div><label>League</label><input id="pLeague" value="NFL"></div>
+      <div><label>Tipster</label><input id="pTipster" value="Five"></div>
+    </div>
+    <div class="row">
+      <div><label>Your pick (team name)</label><input id="pPick" value="Kansas City Chiefs"></div>
+      <div><label>Event date</label><input id="pDate" type="date" value="2026-11-08"></div>
+    </div>
+    <div class="row">
+      <div><label>Model %</label><input id="pModel" type="number" min="0" max="100" value="71"></div>
+      <div><label>Bookie % (implied, devigged)</label><input id="pBookie" type="number" min="0" max="100" value="54"></div>
+    </div>
+    <label>Sport</label><select id="pSport">
+      <option value="american-football">American football</option><option value="soccer">Soccer</option>
+      <option value="basketball">Basketball</option><option value="tennis">Tennis</option>
+    </select>
+    <button onclick="logPick()">Log pick</button>
+    <div id="pickOut"></div>
+  </section>
+
+  <section>
+    <h2>3 · Pick journal</h2>
+    <p class="sub">Every pick carries its receipt. <span class="tag sample">Sample / mock</span> = demo history, not a live Mainnet memory.</p>
+    <div id="journal">Loading…</div>
+  </section>
+
+  <section>
+    <h2>4 · Credibility — who to trust</h2>
+    <p class="sub">Recomputed from settled picks. Trust is shrunk toward 50 for small samples, so n=1 can’t score 100.</p>
+    <div id="cred">Loading…</div>
+  </section>
+
+  <section>
+    <h2>5 · Walrus Memory</h2>
+    <p class="sub">Namespace: <span class="mono">recall-picks</span>. In mock mode these texts live locally only — they are <b>not</b> on Walrus Mainnet.</p>
+    <div class="row">
+      <div><label>Recall query</label><input id="memQ" placeholder="e.g. Chiefs, Five, NFL"></div>
+      <div><label>&nbsp;</label><button style="margin-top:0" onclick="loadMemory()">Search memory</button></div>
+    </div>
+    <div id="memOut">Loading…</div>
+  </section>
+
+  <section>
+    <p class="note"><b>Honest limits:</b> there is no football data on Sui and Tatum has no odds API. The model and bookie odds are offchain; Sui proves the pick existed before kickoff (checkpoint receipt), and Walrus Memory learns from the outcome. Simulation is not a prediction guarantee.</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+async function j(u,o){const r=await fetch(u,o);return r.json()}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+async function loadHealth(){
+  const h=await j('/api/health');
+  const b=$('healthBadge');
+  if(h.mode==='live'){b.className='badge live';b.textContent='● Live — Sui Mainnet via Tatum';$('healthLine').textContent=`Checkpoint #${h.checkpoint} · balance ${h.balanceSui??'—'} SUI${h.suiPriceUSD?` · SUI $${h.suiPriceUSD}`:''}`}
+  else if(h.mode==='live-error'){b.className='badge err';b.textContent='● Onchain data unavailable';$('healthLine').textContent='Live Tatum call failed — sample checkpoint shown, not live. '+(h.reason||'')}
+  else{b.className='badge mock';b.textContent='● Mock — no Tatum key yet';$('healthLine').textContent=`Sample checkpoint #${h.checkpoint} (from Tatum docs) — NOT a live read. Set TATUM_API_KEY for live data.`}
+}
+async function runSim(){
+  const body={sport:$('simSport').value,teamA:$('simA').value,teamB:$('simB').value,modelPct:+$('simModel').value||50};
+  if($('simOddsA').value)body.bookieOddsA=+$('simOddsA').value;
+  if($('simOddsB').value)body.bookieOddsB=+$('simOddsB').value;
+  if($('simExpA').value&&$('simExpB').value){const s=body.sport;
+    if(s==='soccer'){body.expectedGoalsA=+$('simExpA').value;body.expectedGoalsB=+$('simExpB').value}
+    else if(s!=='tennis'){body.expectedPointsA=+$('simExpA').value;body.expectedPointsB=+$('simExpB').value}}
+  $('simOut').innerHTML='Simulating 1,000 runs…';
+  const r=await j('/api/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(r.error){$('simOut').innerHTML='<p style="color:#b91c1c">'+esc(r.error)+'</p>';return}
+  $('simOut').innerHTML=`<div class="card"><h3>${esc(r.teamA)} ${r.avgScoreA} – ${r.avgScoreB} ${esc(r.teamB)} <span class="meta">(avg, ${esc(r.scoreLabel)})</span></h3>
+  <p class="meta">1,000 runs · ${esc(r.teamA)} wins ${r.winsA} (${r.winPctA}%) · ${esc(r.teamB)} wins ${r.winsB} (${r.winPctB}%) · ties ${r.ties} (${r.tiePct}%) · median ${r.medianScoreA}–${r.medianScoreB} · avg margin ${r.avgMargin}</p>
+  <p class="${r.edge?'edge':'noedge'}">${esc(r.verdict)}</p>
+  <p class="meta">Sim ${r.winPctA}% vs bookie ${r.bookieImpliedA??'—'}% · edge ${r.edgePp??'—'}pp · model: ${esc(r.model)}</p>
+  <p class="meta">Margin bands (Team A wins): ${esc(Object.entries(r.marginBands).map(([k,v])=>k+': '+v).join(' · ')||'—')}</p></div>`;
+}
+async function logPick(){
+  const body={sport:$('pSport').value,teamA:$('pA').value,teamB:$('pB').value,league:$('pLeague').value,tipster:$('pTipster').value,pick:$('pPick').value,eventDate:$('pDate').value,modelPct:+$('pModel').value,bookiePct:+$('pBookie').value};
+  const r=await j('/api/picks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(r.error){$('pickOut').innerHTML='<p style="color:#b91c1c">'+esc(r.error)+'</p>';return}
+  $('pickOut').innerHTML=`<div class="card"><h3>Logged — ${esc(r.pick_id)}</h3><p class="meta">${esc(r.memoryText)}</p><p class="meta">Receipt: ${esc(r.receipt.note)} Checkpoint #${r.receipt.checkpoint}.</p><p class="meta">Memory: ${esc(r.memory?.mode||'mock')} ${r.memory?.blobId?'· blob '+esc(r.memory.blobId):''} — ${esc(r.memory?.note||'')}</p></div>`;
+  loadJournal();loadCred();loadMemory();
+}
+async function loadJournal(){
+  const d=await j('/api/picks');
+  $('journal').innerHTML=d.picks.map(p=>`<div class="card"><h3>${esc(p.teamA)} vs ${esc(p.teamB)} ${p.sample?'<span class="tag sample">Sample / mock</span>':''} <span class="tag">${esc(p.status)}</span></h3>
+  <p class="meta">${esc(p.league)} · tipster ${esc(p.tipster)} · pick: <b>${esc(p.pick)}</b> · model ${p.modelPct}% vs bookie ${p.bookiePct}% · edge ${p.edgePp>=0?'+':''}${p.edgePp}pp · ${esc(p.timestamp.slice(0,10))}</p>
+  <p class="meta">Receipt: ${p.receipt.mode==='live'?'Verified on Sui mainnet':'Mock — no Tatum key yet'} · Checkpoint #${p.receipt.checkpoint} · via Tatum${p.receipt.suiscanUrl?` · <a href="${esc(p.receipt.suiscanUrl)}" target="_blank" rel="noopener">Suiscan</a>`:''}</p>
+  ${p.outcome?`<p class="meta">Result: ${esc(p.outcome.result)} — ${p.won?'WON':'LOST'}</p>`:''}
+  <p class="mono">${esc(p.memoryText)}</p>
+  ${p.status==='pending'?`<button class="ghost" onclick="settle('${esc(p.pick_id)}','${esc(p.teamA)}')">Settle: ${esc(p.teamA)} won</button><button class="ghost" onclick="settle('${esc(p.pick_id)}','${esc(p.teamB)}')">Settle: ${esc(p.teamB)} won</button><button class="ghost" onclick="settle('${esc(p.pick_id)}','draw')">Settle: draw</button>`:''}
+  </div>`).join('')||'<p>No picks yet — log one above.</p>';
+}
+async function settle(id,winner){
+  const r=await j('/api/picks/'+encodeURIComponent(id)+'/settle',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({winner})});
+  if(r.error){alert(r.error);return}
+  loadJournal();loadCred();loadMemory();
+}
+async function loadCred(){
+  const d=await j('/api/credibility');
+  const rows=d.byTipster.map(c=>`<tr><td>${esc(c.key)}</td><td>${c.settled}</td><td>${c.wins}</td><td>${c.win_rate}%</td><td>${c.avg_edge_pp>=0?'+':''}${c.avg_edge_pp}pp</td><td><b>${c.trust_score}</b></td></tr>`).join('');
+  $('cred').innerHTML=`<table><tr><th>Tipster</th><th>Settled</th><th>Wins</th><th>Win rate</th><th>Avg edge</th><th>Trust</th></tr>${rows||'<tr><td colspan="6">No settled picks yet.</td></tr>'}</table>
+  <p class="meta">${esc(d.formula)}</p>
+  <p class="meta">By league: ${esc(d.byLeague.map(c=>c.key+' — trust '+c.trust_score+' ('+c.settled+' settled)').join(' · ')||'—'}</p>`;
+}
+async function loadMemory(){
+  const q=$('memQ').value.trim();
+  const d=await j('/api/memory'+(q?'?q='+encodeURIComponent(q):''));
+  $('memOut').innerHTML=`<p><span class="badge ${d.mode==='live'?'live':'mock'}">${d.mode==='live'?'● Live — Walrus Memory':'● Mock — not on Mainnet'}</span> <span class="meta">${d.memory_count} memories · blob_ids: ${d.blob_ids?.length?esc(d.blob_ids.join(', ')):'— (mock, no blob_id)'}</span></p>
+  <p class="meta">${esc(d.note||'')}</p>`+(d.memories||[]).map(m=>m.text
+    ?`<p class="mono" style="background:#f8fafc;padding:8px;border-radius:8px">${esc(m.text)}</p>`
+    :`<p class="mono" style="background:#f8fafc;padding:8px;border-radius:8px">blob ${esc(m.blob_id||'—')} · ${esc(m.created_at||'')} · ${esc(m.status||'')} — metadata only, use recall to read the text</p>`).join('');
+}
+loadHealth();loadJournal();loadCred();loadMemory();
+</script>
+</body>
+</html>

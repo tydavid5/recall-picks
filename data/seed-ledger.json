@@ -1,0 +1,78 @@
+{
+  "seeded_at": "2026-11-06T13:33:25.700Z",
+  "namespace": "recall-picks",
+  "account_id": "0xfe2df269552a13c489e6e657c9b8fb7c3bca8ca10fb3686f1e7e7f141b986e53",
+  "agent_public_key": "a888adfe56cc217eba1f29240d9a68f534f17a596ab06fc4ce32dad8aa268000",
+  "memories": [
+    {
+      "id": "seed-01",
+      "kind": "PICK",
+      "pick_id": "rp-seed-chiefs-bills",
+      "blob_id": "3iJsZmK6LyAWoZeDJblQKmUeBqS6DS9v7ZbfQEWKTbk",
+      "text": "PICK 2026-11-02 | Kansas City Chiefs vs Buffalo Bills | NFL | pick: Kansas City Chiefs | model: 71% | bookie: 54% | edge: +17pp | tipster: Five | status: pending | pick_id: rp-seed-chiefs-bills"
+    },
+    {
+      "id": "seed-02",
+      "kind": "OUTCOME",
+      "pick_id": "rp-seed-chiefs-bills",
+      "blob_id": "ehmgbF_6703AC7XwNyyd3f3zzx3ynTmb6aXsCSTAjHQ",
+      "text": "OUTCOME 2026-11-02 | Kansas City Chiefs vs Buffalo Bills | NFL | result: Kansas City Chiefs won 27-24 | pick: Kansas City Chiefs | outcome: WON | tipster: Five | pick_id: rp-seed-chiefs-bills"
+    },
+    {
+      "id": "seed-03",
+      "kind": "PICK",
+      "pick_id": "rp-seed-arsenal-chelsea",
+      "blob_id": "MRHx-t19DqzvVBA7mG3v97nAiM7D7d_R6qJ17ATLeJA",
+      "text": "PICK 2026-11-03 | Arsenal vs Chelsea | Premier League | pick: Arsenal | model: 58% | bookie: 52% | edge: +6pp | tipster: Ada | status: pending | pick_id: rp-seed-arsenal-chelsea"
+    },
+    {
+      "id": "seed-04",
+      "kind": "OUTCOME",
+      "pick_id": "rp-seed-arsenal-chelsea",
+      "blob_id": "Hy9bFGeVW5o0vyDDGuNU4a6qcIetJEnhmeAZfGrLPEg",
+      "text": "OUTCOME 2026-11-03 | Arsenal vs Chelsea | Premier League | result: Draw 1-1 | pick: Arsenal | outcome: LOST | tipster: Ada | pick_id: rp-seed-arsenal-chelsea"
+    },
+    {
+      "id": "seed-05",
+      "kind": "PICK",
+      "pick_id": "rp-seed-lakers-celtics",
+      "blob_id": "oIdOmwPz7pKf5I762Zb7Edh0KFJZ3YmSNUkKxbk2-Hc",
+      "text": "PICK 2026-11-04 | Los Angeles Lakers vs Boston Celtics | NBA | pick: Boston Celtics | model: 68% | bookie: 57% | edge: +11pp | tipster: Ken | status: pending | pick_id: rp-seed-lakers-celtics"
+    },
+    {
+      "id": "seed-06",
+      "kind": "OUTCOME",
+      "pick_id": "rp-seed-lakers-celtics",
+      "blob_id": "1vkF7KNDmoENXghdhYat60yKdo_uYhNBWCfqdeCrp-w",
+      "text": "OUTCOME 2026-11-04 | Los Angeles Lakers vs Boston Celtics | NBA | result: Boston Celtics won 112-104 | pick: Boston Celtics | outcome: WON | tipster: Ken | pick_id: rp-seed-lakers-celtics"
+    },
+    {
+      "id": "seed-07",
+      "kind": "CREDIBILITY",
+      "pick_id": null,
+      "blob_id": "FwNatUb4WdxLX3HlPLTDDRJxXWimTAwRBLJS8TS02Og",
+      "text": "CREDIBILITY 2026-11-04 | tipster: Five | league: NFL | settled: 1 | wins: 1 | win_rate: 100% | avg_edge: +17pp | trust: 66 | note: sample n=1, low confidence — trust is shrunk toward 50 until more picks settle"
+    },
+    {
+      "id": "seed-08",
+      "kind": "CREDIBILITY",
+      "pick_id": null,
+      "blob_id": "h2ziWMplncG87SiiX78nPQa0tuf8KyBLrBRfrrfwLf8",
+      "text": "CREDIBILITY 2026-11-04 | tipster: Ada | league: Premier League | settled: 1 | wins: 0 | win_rate: 0% | avg_edge: +6pp | trust: 39 | note: sample n=1, low confidence — trust is shrunk toward 50 until more picks settle"
+    },
+    {
+      "id": "seed-09",
+      "kind": "CREDIBILITY",
+      "pick_id": null,
+      "blob_id": "hK0QmX_XedC1qMfbJX4qJ-RQA-izVnjRuwWGpxtGuOE",
+      "text": "CREDIBILITY 2026-11-04 | tipster: Ken | league: NBA | settled: 1 | wins: 1 | win_rate: 100% | avg_edge: +11pp | trust: 65 | note: sample n=1, low confidence — trust is shrunk toward 50 until more picks settle"
+    },
+    {
+      "id": "seed-10",
+      "kind": "LEAGUE",
+      "pick_id": null,
+      "blob_id": "5gSU3hm3u0EltX3Jktuqi_DjGOx7xOTaKnSTdDxIH4Q",
+      "text": "LEAGUE 2026-11-04 | NFL | note: Home teams in this sample won 1 of 1 settled home pick; do not over-read n=1. Track home/away split per league as picks settle, and re-check after 10+ settled picks per league."
+    }
+  ]
+}
