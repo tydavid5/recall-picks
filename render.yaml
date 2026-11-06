@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: recall-picks
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # Set these in the Render dashboard (never commit them):
+      # TATUM_API_KEY, MEMWAL_PRIVATE_KEY, MEMWAL_ACCOUNT_ID, MEMWAL_AGENT_ID
