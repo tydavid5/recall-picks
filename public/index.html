@@ -173,7 +173,7 @@ async function loadCred(){
   const rows=d.byTipster.map(c=>`<tr><td>${esc(c.key)}</td><td>${c.settled}</td><td>${c.wins}</td><td>${c.win_rate}%</td><td>${c.avg_edge_pp>=0?'+':''}${c.avg_edge_pp}pp</td><td><b>${c.trust_score}</b></td></tr>`).join('');
   $('cred').innerHTML=`<table><tr><th>Tipster</th><th>Settled</th><th>Wins</th><th>Win rate</th><th>Avg edge</th><th>Trust</th></tr>${rows||'<tr><td colspan="6">No settled picks yet.</td></tr>'}</table>
   <p class="meta">${esc(d.formula)}</p>
-  <p class="meta">By league: ${esc(d.byLeague.map(c=>c.key+' — trust '+c.trust_score+' ('+c.settled+' settled)').join(' · ')||'—'}</p>`;
+  <p class="meta">By league: ${esc(d.byLeague.map(c=>c.key+' — trust '+c.trust_score+' ('+c.settled+' settled)').join(' · ')||'—')}</p>`;
 }
 async function loadMemory(){
   const q=$('memQ').value.trim();
