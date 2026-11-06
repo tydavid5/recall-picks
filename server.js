@@ -44,7 +44,9 @@ const MEMWAL_SERVER_URL = 'https://relayer.memory.walrus.xyz';
 // NEVER presented as a live read.
 const SAMPLE_CHECKPOINT = 264536804;
 
-const PICKS_FILE = path.join(__dirname, 'data', 'picks.json');
+const PICKS_FILE = process.env.VERCEL
+  ? path.join(require('os').tmpdir(), 'recall-picks', 'picks.json') // Vercel serverless fs is ephemeral; /tmp is writable
+  : path.join(__dirname, 'data', 'picks.json');
 const SEED_FILE = path.join(__dirname, 'data', 'seed-picks.json');
 
 // ---- math helpers ----
@@ -551,8 +553,11 @@ app.get('/api/seed', async (req, res) => {
   res.json({ mode: 'mock', note: 'Seed memory texts — NOT on Mainnet yet. Run npm run seed with real Walrus env vars to write them.', ...seed });
 });
 
-app.listen(PORT, () => {
-  console.log(`Recall Picks listening on http://localhost:${PORT}`);
-  console.log(`Mode: Tatum ${TATUM_API_KEY ? 'key present (live attempts enabled)' : 'MOCK (no TATUM_API_KEY)'} | Walrus ${memwalMode() === 'live' ? 'key present (live attempts enabled)' : 'MOCK (no MEMWAL_* keys)'}`);
-  console.log('Keys are never logged. See README.md for setup.');
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Recall Picks listening on http://localhost:${PORT}`);
+    console.log(`Mode: Tatum ${TATUM_API_KEY ? 'key present (live attempts enabled)' : 'MOCK (no TATUM_API_KEY)'} | Walrus ${memwalMode() === 'live' ? 'key present (live attempts enabled)' : 'MOCK (no MEMWAL_* keys)'}`);
+    console.log('Keys are never logged. See README.md for setup.');
+  });
+}
+module.exports = app;
